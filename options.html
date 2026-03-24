@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Download Router Settings</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --border: #334155;
+            --radius: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            min-width: 450px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        select.form-select {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+
+        select.form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+
+        button.btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        button.btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button.btn-primary:active {
+            transform: translateY(0);
+        }
+
+        button.btn-danger {
+            background-color: transparent;
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button.btn-danger:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+        }
+
+        .btn-dismiss {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 0.5rem;
+        }
+
+        .btn-dismiss:hover {
+            color: var(--text);
+            background-color: var(--border);
+        }
+
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .rule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            animation: fadeIn 0.4s ease-out;
+            transition: transform 0.2s, border-color 0.2s, background-color 0.2s, opacity 0.2s;
+        }
+
+        .rule-item:not(.dragging):hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateX(2px);
+        }
+
+        .rule-item.dragging {
+            opacity: 0.5;
+            background-color: rgba(99, 102, 241, 0.1);
+            border: 1px dashed var(--primary);
+        }
+
+        .list-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: var(--text-muted);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .rule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            padding-right: 1rem;
+        }
+
+        .rule-source {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .rule-dest {
+            font-size: 0.85rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2.5rem 0;
+            font-style: italic;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 8px;
+            border: 1px dashed var(--border);
+        }
+        
+        #save-status {
+            color: #34d399;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-url {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+        .badge-file {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: #34d399;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Routing</h1>
+            <p class="subtitle">Automatically organize your downloads into folders</p>
+        </header>
+
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Create New Rule
+            </h2>
+            <form id="add-rule-form">
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <div class="input-group">
+                        <label for="rule-type">Condition Type</label>
+                        <select id="rule-type" class="form-select">
+                            <option value="url">Source URL / Keyword</option>
+                            <option value="filetype">File Type (Extension)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="rule-value" id="rule-value-label">URLs or Keywords (comma separated)</label>
+                        <input type="text" id="rule-value" placeholder="e.g. web.whatsapp.com, github.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="destination">Subfolder (inside Downloads)</label>
+                        <input type="text" id="destination" placeholder="e.g. WhatsApp" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Save Routing Rule</button>
+            </form>
+            <div id="save-status">Rule added successfully!</div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 19h16"></path><path d="M4 15h16"></path><path d="M4 11h16"></path><path d="M4 7h16"></path></svg>
+                Active Rules
+            </h2>
+            <div id="rules-container" class="rules-list">
+                <!-- Rules injected via JS -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title" style="color: #94a3b8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                Suggested Defaults (CSE / Engineering)
+            </h2>
+            <div id="defaults-container" class="rules-list">
+                <!-- Defaults injected via JS -->
+            </div>
+        </div>
+    </div>
+    <script src="options.js"></script>
+</body>
+</html>

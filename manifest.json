@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Download Router",
+  "version": "1.0",
+  "description": "Automatically routes downloads to specific subfolders based on source URL or metadata.",
+  "permissions": [
+    "downloads",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_title": "Smart Download Router"
+  }
+}
